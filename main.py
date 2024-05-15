@@ -10,7 +10,7 @@ redis_server = redis.Redis(host="localhost",port=6379,db=0)
 
 
 mq = MqttConnect()
-mq.topic = ["578689832956829","542484815423712","372582595849208"]
+mq.topic = ["578689832956829"]
 
 def post_data_to_publish():
     mq.connect_to_broker()
