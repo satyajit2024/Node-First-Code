@@ -1,23 +1,45 @@
 import time
 import Adafruit_ADS1x15
 
-def get_current():
-    # Initialize ADC
-    adc = Adafruit_ADS1x15.ADS1115()
-    GAIN = 2/3  # Set gain to 2/3 (acceptable for 0-5V range)
-    # ACS712 parameters
-    sensitivity = 0.185  # mV per Amp
-    zero_current_voltage = 2500  # mV
-    # Read ADC value
-    adc_value = adc.read_adc(0, gain=GAIN)
-    # Convert ADC value to voltage
-    voltage = adc_value / 32767.0 * 4.096  # 4.096V is the full scale range for ADS1115 with GAIN = 2/3
-    # Calculate AC current
-    ac_current = (voltage - zero_current_voltage) / sensitivity
-    ac_current = ac_current/1000
-    #print("AC Current: {:.2f} mA".format(ac_current))
-    print("AC Current: {:.2f} A".format(ac_current))
-    time.sleep(1)
-    return f"{ac_current}"
-# Call the function to start measuring AC current
-# get_current()
+
+class Current:
+
+    def __init__(self):
+        # Initialize ADC
+        self.__adc = Adafruit_ADS1x15.ADS1115()
+        self.__GAIN = 2/3  # Set gain to 2/3 (acceptable for 0-5V range)
+        # ACS712 parameters
+        self.__sensitivity = 0.185  # mV per Amp
+        self.__zero_current_voltage = 2500  # mV
+
+
+    def current(self,adc_value):
+        # Convert ADC value to voltage
+        voltage = adc_value / 32767.0 * 4.096  # 4.096V is the full scale range for ADS1115 with GAIN = 2/3
+        # Calculate AC current
+        ac_current = (voltage - self.__zero_current_voltage) / self.__sensitivity
+        ac_current = ac_current/1000
+        return ac_current
+
+
+    def get_current(self):
+        # Read ADC value
+        adc_value0 = self.__adc.read_adc(0, gain=self.__GAIN)
+        adc_value1 = self.__adc.read_adc(1, gain=self.__GAIN)
+        adc_value2 = self.__adc.read_adc(2, gain=self.__GAIN)
+
+        current0 = self.current(adc_value0)
+        current1 = self.current(adc_value1)
+        current2 = self.current(adc_value2)
+        #print("AC Current: {:.2f} mA".format(ac_current))
+        print("AC Current0: {:.2f} A".format(current1))
+        print("AC Current1: {:.2f} A".format(current1))
+        print("AC Current2: {:.2f} A".format(current1))
+
+
+        time.sleep(1)
+        return f"{current1}"
+
+
+c = Current()
+c.get_current()
