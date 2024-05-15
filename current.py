@@ -13,7 +13,7 @@ class Current:
         self.__zero_current_voltage = 2500  # mV
 
 
-    def current(self,adc_value):
+    def __current(self,adc_value):
         # Convert ADC value to voltage
         voltage = adc_value / 32767.0 * 4.096  # 4.096V is the full scale range for ADS1115 with GAIN = 2/3
         # Calculate AC current
@@ -28,9 +28,9 @@ class Current:
         adc_value1 = self.__adc.read_adc(1, gain=self.__GAIN)
         adc_value2 = self.__adc.read_adc(2, gain=self.__GAIN)
 
-        current_r = self.current(adc_value0)
-        current_y = self.current(adc_value1)
-        current_b = self.current(adc_value2)
+        current_r = self.__current(adc_value0)
+        current_y = self.__current(adc_value1)
+        current_b = self.__current(adc_value2)
         #print("AC Current: {:.2f} mA".format(ac_current))
         print("AC Current0: {:.2f} A".format(current_r))
         print("AC Current1: {:.2f} A".format(current_y))
