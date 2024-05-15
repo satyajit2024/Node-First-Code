@@ -67,9 +67,10 @@ def recive():
         print(f"{message}  {counter}")
 
         message_list = message.split("/")
-        print(message_list)
 
-        # redis_server.set("current",message)
+        redis_server.set("current_r",message_list[0])
+        redis_server.set("current_y",message_list[1])
+        redis_server.set("current_b",message_list[2])
 
         # Print packet/signal status including RSSI, SNR, and signalRSSI
         print("Packet status: RSSI = {0:0.2f} dBm | SNR = {1:0.2f} dB".format(LoRa.packetRssi(), LoRa.snr()))

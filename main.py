@@ -17,8 +17,12 @@ def post_data_to_publish():
     while True:
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         for i in mq.topic:
-            current = float(redis_server.get("current").decode('utf-8'))
-            mq.data_publish({"dataPoint": now, "paramType": 'current', "paramValue": current , "deviceId": i})
+            current_r = float(redis_server.get("current_r").decode('utf-8'))
+            current_y = float(redis_server.get("current_y").decode('utf-8'))
+            current_b = float(redis_server.get("current_b").decode('utf-8'))
+            mq.data_publish({"dataPoint": now, "paramType": 'current', "paramValue": current_r , "deviceId": i})
+            mq.data_publish({"dataPoint": now, "paramType": 'current', "paramValue": current_y , "deviceId": i})
+            mq.data_publish({"dataPoint": now, "paramType": 'current', "paramValue": current_b , "deviceId": i})
 
         time.sleep(5)
 
