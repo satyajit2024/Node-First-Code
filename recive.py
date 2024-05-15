@@ -65,6 +65,10 @@ def recive():
 
         # Print received message and counter in serial
         print(f"{message}  {counter}")
+
+        message_list = message.split("/")
+        print(message_list)
+
         # redis_server.set("current",message)
 
         # Print packet/signal status including RSSI, SNR, and signalRSSI
