@@ -20,9 +20,14 @@ def post_data_to_publish():
             current_r = float(redis_server.get("current_r").decode('utf-8'))
             current_y = float(redis_server.get("current_y").decode('utf-8'))
             current_b = float(redis_server.get("current_b").decode('utf-8'))
+            counter = int(redis_server.get("counter").decode('utf-8'))
+            
             mq.data_publish({"dataPoint": now, "paramType": 'current', "paramValue": current_r , "deviceId": i})
             mq.data_publish({"dataPoint": now, "paramType": 'current', "paramValue": current_y , "deviceId": i})
             mq.data_publish({"dataPoint": now, "paramType": 'current', "paramValue": current_b , "deviceId": i})
+
+            if counter%30 == 0:
+                pass
 
         time.sleep(5)
 
