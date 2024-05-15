@@ -4,6 +4,7 @@ currentdir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.dirname(os.path.dirname(currentdir)))
 from LoRaRF import SX127x
 import time
+from current import get_current
 
 # Begin LoRa radio and set NSS, reset, busy, IRQ, txen, and rxen pin with connected Raspberry Pi gpio pins
 # IRQ pin not used in this example (set to -1). Set txen and rxen pin to -1 if RF module doesn't have one
@@ -45,7 +46,7 @@ LoRa.setSyncWord(0x34)
 print("\n-- LoRa Transmitter --\n")
 
 # Message to transmit
-message = "HeLoRa Bariflolabs"
+message = get_current()
 messageList = list(message)
 for i in range(len(messageList)) : messageList[i] = ord(messageList[i])
 counter = 0
