@@ -3,8 +3,11 @@ currentdir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.dirname(os.path.dirname(currentdir)))
 from LoRaRF import SX127x
 import time
+import redis
+
 
 def recive():
+    redis_server = redis.Redis(host="localhost",port=6379,db=0)
     # Begin LoRa radio and set NSS, reset, busy, IRQ, txen, and rxen pin with connected Raspberry Pi gpio pins
     # IRQ pin not used in this example (set to -1). Set txen and rxen pin to -1 if RF module doesn't have one
     busId = 0; csId = 0
@@ -62,6 +65,7 @@ def recive():
 
         # Print received message and counter in serial
         print(f"{message}  {counter}")
+        redis_server.set("current",message)
 
         # Print packet/signal status including RSSI, SNR, and signalRSSI
         print("Packet status: RSSI = {0:0.2f} dBm | SNR = {1:0.2f} dB".format(LoRa.packetRssi(), LoRa.snr()))

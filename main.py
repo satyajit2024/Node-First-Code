@@ -5,14 +5,19 @@ from random import uniform
 from paho.mqtt.client import Client
 import threading
 from recive import recive
+import redis
+redis_server = redis.Redis(host="localhost",port=6379,db=0)
+
+
 mq = MqttConnect()
 mq.topic = ["578689832956829","542484815423712","372582595849208"]
 
-def post_data_to_publish(current):
+def post_data_to_publish():
     mq.connect_to_broker()
     while True:
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         for i in mq.topic:
+            current = redis_server.get("current")
             mq.data_publish({"dataPoint": now, "paramType": 'current', "paramValue": current , "deviceId": i})
 
         time.sleep(5)
