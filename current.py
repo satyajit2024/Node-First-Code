@@ -18,5 +18,6 @@ def get_current():
     #print("AC Current: {:.2f} mA".format(ac_current))
     print("AC Current: {:.2f} A".format(ac_current))
     time.sleep(1)
+    return ac_current
 # Call the function to start measuring AC current
-get_current()
+# get_current()
