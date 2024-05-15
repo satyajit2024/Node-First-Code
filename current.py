@@ -28,18 +28,12 @@ class Current:
         adc_value1 = self.__adc.read_adc(1, gain=self.__GAIN)
         adc_value2 = self.__adc.read_adc(2, gain=self.__GAIN)
 
-        current0 = self.current(adc_value0)
-        current1 = self.current(adc_value1)
-        current2 = self.current(adc_value2)
+        current_r = self.current(adc_value0)
+        current_y = self.current(adc_value1)
+        current_b = self.current(adc_value2)
         #print("AC Current: {:.2f} mA".format(ac_current))
-        print("AC Current0: {:.2f} A".format(current0))
-        print("AC Current1: {:.2f} A".format(current1))
-        print("AC Current2: {:.2f} A".format(current2))
+        print("AC Current0: {:.2f} A".format(current_r))
+        print("AC Current1: {:.2f} A".format(current_y))
+        print("AC Current2: {:.2f} A".format(current_b))
 
-
-        time.sleep(1)
-        return f"{current1}"
-
-
-c = Current()
-c.get_current()
+        return f"{current_r}/{current_y}/{current_b}"
