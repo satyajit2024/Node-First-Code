@@ -17,7 +17,7 @@ def post_data_to_publish():
     while True:
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         for i in mq.topic:
-            current = redis_server.get("current")
+            current = float(redis_server.get("current").decode('utf-8'))
             mq.data_publish({"dataPoint": now, "paramType": 'current', "paramValue": current , "deviceId": i})
 
         time.sleep(5)
