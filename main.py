@@ -15,6 +15,7 @@ redis_server = redis.Redis(host="localhost",port=6379,db=0)
 
 def post_data_to_publish():
     mq.connect_to_broker()
+    time.sleep(10)
     while True:
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         for i in mq.topic:
@@ -36,7 +37,7 @@ def post_data_to_publish():
                 )
                 mail.send_email(*args)
 
-        time.sleep(5)
+        time.sleep(10)
 
 
 
