@@ -6,28 +6,35 @@ from paho.mqtt.client import Client
 import threading
 from recive import recive
 import redis
-redis_server = redis.Redis(host="localhost",port=6379,db=0)
+from SendMail import SendMail
 
-
+mail = SendMail()
 mq = MqttConnect()
 mq.topic = ["578689832956829"]
+redis_server = redis.Redis(host="localhost",port=6379,db=0)
 
 def post_data_to_publish():
     mq.connect_to_broker()
     while True:
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         for i in mq.topic:
-            current_r = float(redis_server.get("current_r").decode('utf-8'))
-            current_y = float(redis_server.get("current_y").decode('utf-8'))
             current_b = float(redis_server.get("current_b").decode('utf-8'))
+            current_y = float(redis_server.get("current_y").decode('utf-8'))
+            current_r = float(redis_server.get("current_r").decode('utf-8'))
             counter = int(redis_server.get("counter").decode('utf-8'))
             
-            mq.data_publish({"dataPoint": now, "paramType": 'current', "paramValue": current_r , "deviceId": i})
-            mq.data_publish({"dataPoint": now, "paramType": 'current', "paramValue": current_y , "deviceId": i})
             mq.data_publish({"dataPoint": now, "paramType": 'current', "paramValue": current_b , "deviceId": i})
+            mq.data_publish({"dataPoint": now, "paramType": 'current', "paramValue": current_y , "deviceId": i})
+            mq.data_publish({"dataPoint": now, "paramType": 'current', "paramValue": current_r , "deviceId": i})
 
-            if counter%30 == 0:
-                pass
+            if counter%10 == 0:
+                args = (
+                    'satyajit.bariflo@outlook.com', 
+                    'New Current Status', 
+                    'email_template.html',  
+                    {'current_b': current_b, 'current_y': current_y, 'current_r': current_r} 
+                )
+                mail.send_email(*args)
 
         time.sleep(5)
 
