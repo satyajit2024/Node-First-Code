@@ -73,4 +73,4 @@ while True :
 
     # Don't load RF module with continous transmit
     time.sleep(10)
-    counter = (counter + 1) % 11
+    counter = (counter + 1) % 256

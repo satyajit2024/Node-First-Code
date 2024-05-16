@@ -28,7 +28,7 @@ def post_data_to_publish():
                 mq.data_publish({"dataPoint": now, "paramType": 'current', "paramValue": current_y , "deviceId": i})
                 mq.data_publish({"dataPoint": now, "paramType": 'current', "paramValue": current_r , "deviceId": i})
 
-                if counter%10 == 0:
+                if counter%250 == 0:
                     args = (
                         'satyajit.bariflo@outlook.com', 
                         'New Current Status', 
