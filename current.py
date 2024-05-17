@@ -38,3 +38,7 @@ class Current:
         print("AC Current2: {:.2f} A".format(current_b))
 
         return f"{round(current_r,2)}/{round(current_y,2)}/{round(current_b,2)}"
+
+
+c = Current()
+c.get_current()
